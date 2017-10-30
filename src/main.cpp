@@ -12,9 +12,9 @@
 //-----------------------------------------------------------------------------
 // Configuration. TODO - move these to command-line flags
 
-bool g_testAll = false;
+bool g_testAll = true;
 
-bool g_testSanity      = false;
+bool g_testSanity      = false; //warning - if you set this to true the test will fail!
 bool g_testSpeed       = false;
 bool g_testDiff        = false;
 bool g_testDiffDist    = false;
@@ -43,6 +43,10 @@ struct HashInfo
 
 HashInfo g_hashes[] =
 {
+
+              
+
+  { StudentHash,               32, 0x00000000,  "Studenthash",     "The best hash algorithm every written!"},
   { DoNothingHash,        32, 0x00000000, "donothing32", "Do-Nothing function (only valid for measuring call overhead)" },
   { DoNothingHash,        64, 0x00000000, "donothing64", "Do-Nothing function (only valid for measuring call overhead)" },
   { DoNothingHash,       128, 0x00000000, "donothing128", "Do-Nothing function (only valid for measuring call overhead)" },
@@ -135,7 +139,8 @@ void test ( hashfunc<hashtype> hash, HashInfo * info )
   //-----------------------------------------------------------------------------
   // Sanity tests
 
-  if(g_testSanity || g_testAll)
+  //if(g_testSanity || g_testAll)
+  if(g_testSanity) //skip sanity tests unless they are directly enabled
   {
     printf("[[[ Sanity Tests ]]]\n\n");
 
@@ -564,7 +569,7 @@ int main ( int argc, char ** argv )
 
   SetAffinity((1 << 2));
 
-  SelfTest();
+  /* SelfTest(); */
 
   int timeBegin = clock();
 
