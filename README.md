@@ -1,3 +1,25 @@
+The manual for this exercise is on Google Drive at:
+
+https://docs.google.com/document/d/1EsM4mnw1EQNi2srDxazJyJicQU_fXKECpAjW86x2UJQ/edit
+
+`shak/` contains numbered chunks of the compleat works of Wm.
+Shakespeare, `orig/` containing the original chunks, and `mod/`
+containing the same numbered chunks but with one byte changed.
+
+`zero/` contains files made of all zeros with slight changes between
+`mod/` and `orig/`, while `random/` contains files of random data with
+slight changes between `mod/` and `orig/`. `a/` contains files that are
+a single byte. The files in `a/orig/` are all the character `a`; in
+`mod/` they are some other byte.
+
+samples/ has some files that should help test the strength of your hash
+(because they either have very little or a lot of entropy).
+
+ * `0` is a large file of all zeroes
+ * `01` is a large file of alternating `0`s and `1`s
+ * `0-prime` is like `0` but with one byte changed
+ * `random` is a large random file
+
 ## This version of SMHasher is edited for a hash lab
 The student hash goes into src/StudentHash.cpp. You can then compile both the individual runner and SMhasher by running "make". 
 
