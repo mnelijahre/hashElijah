@@ -26,7 +26,10 @@ The student hash goes into src/StudentHash.cpp. You can then compile both the in
 To run the individual runner, run ./runner filename
 to run SMhasher against the student hash, run ./smhasher StudentHash
 
-You can change which tests are run in the main.cpp file for SMhasher and recompiling. 
+You can change which tests are run in the main.cpp file for SMhasher and recompiling.
+
+The SMHasher wiki has [information about what the individual tests](https://github.com/aappleby/smhasher/wiki/SMHasher) are doing and how to to interpret the results.
+
 
 ## [SMHasher](https://github.com/aappleby/smhasher/wiki) is a test suite designed to test the distribution, collision, and performance properties of non-cryptographic hash functions.
 
