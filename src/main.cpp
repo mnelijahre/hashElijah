@@ -46,7 +46,7 @@ HashInfo g_hashes[] =
 
               
 
-  { StudentHash,               32, 0x00000000,  "Studenthash",     "The best hash algorithm ever written!"},
+  { StudentHash,               32, 0x00000000,  "StudentHash",     "The best hash algorithm ever written!"},
   { DoNothingHash,        32, 0x00000000, "donothing32", "Do-Nothing function (only valid for measuring call overhead)" },
   { DoNothingHash,        64, 0x00000000, "donothing64", "Do-Nothing function (only valid for measuring call overhead)" },
   { DoNothingHash,       128, 0x00000000, "donothing128", "Do-Nothing function (only valid for measuring call overhead)" },
