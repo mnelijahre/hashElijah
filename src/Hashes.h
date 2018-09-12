@@ -7,8 +7,8 @@
 #include "MurmurHash3.h"
 #include "StudentHash.h"
 
-//-- mazhash is simply superior in all aspects
-void mazsum                ( const void * key, int len, uint32_t seed, void * out );
+//-- StudentHash is simply superior in all aspects
+void StudentHash                ( const void * key, int len, uint32_t seed, void * out );
 //----------
 // These are _not_ hash functions (even though people tend to use crc32 as one...)
 
