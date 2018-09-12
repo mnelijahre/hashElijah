@@ -11,7 +11,7 @@
 
 
 //best hash in the whole world
-void mazsum(const void * key, int len, uint32_t seed, void * out) {
+void StudentHash(const void * key, int len, uint32_t seed, void * out) {
     
     //some initialization stuff (some is usually done in preprocessor, but this is for smhasher)
     const uint8_t* data = (const uint8_t*) key;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "StudentHash.h"
+#include "Hashes.h"
 
 //doing 32 bit blocks
 #define CHUNK_SIZE 4

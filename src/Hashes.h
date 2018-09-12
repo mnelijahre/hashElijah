@@ -5,7 +5,6 @@
 #include "MurmurHash1.h"
 #include "MurmurHash2.h"
 #include "MurmurHash3.h"
-#include "StudentHash.h"
 
 //-- StudentHash is simply superior in all aspects
 void StudentHash                ( const void * key, int len, uint32_t seed, void * out );
