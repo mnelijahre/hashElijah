@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+
+import getopt
+import os
+import sys
+import re
+import numpy
+
+def usage():
+    instructions = """HashStats.py -- compute some basic stats about hash output
+    Usage: HashStats.py -i input_file [-ah]
+
+    Options:
+
+    -i file     File to process
+    -a          Hashes alternate between two algorithms. (optional)
+    -h          Show this screen.
+    -c file     Write output to file named 'file'
+
+    """
+
+    print(instructions)
+
+
+def main():
+    
+    altmode = False     # are we differencing every two digests first?
+    infile = ""         # input file path
+    digest_dict = {}        # place to store binary digests
+    numhashes = 0       # how many digests are we processing (for mean)
+    digest_len = 0      # how long are the digests in this file (assumes all same)
+    collisions = 0      # how many collisions have we seen with this input?
+    csv_outfile = ''
+    
+    # use getopts to handle commandline switches (getopt is so rad and
+    # exists for bash, too!)
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'i:ahc:')
+    except getopt.GetoptError as err:
+        usage()
+        print ("Error:")
+        print (str(err))
+        sys.exit(2)
+
+    for o, a in opts:
+        if o == "-a":
+            altmode = True
+        elif o == "-i":
+            infile = a
+        elif o == "-h":
+            usage()
+            sys.exit(0)
+        elif o == "-c":
+            csv_outfile = a
+        else:
+            print("Unhandled option.\n")
+            usage()
+            sys.exit(2)
+
+
+    if infile == "":
+        usage()
+        print("You must specify an input file using the option -i filename.\n")
+        sys.exit(2)
+
+    # compile regular expression to extract the digest from the file
+    p = re.compile("^([0-9a-f]+)\s+[\w/]+/(\d+)$")
+   
+
+    # loop through the file and do the following:
+    # - match the digest using the regex
+    # - convert the digest to a hex integer
+    # - convert the integer into a binary string representation
+    # - store that binary string in an array
+
+    with open(infile, 'r') as myfile:
+        for line in myfile:
+            
+            m = p.match(line)
+            digest = m.group(1)
+            filename = m.group(2)
+            if digest:
+                numhashes += 1 # got a hash!
+                hex_digest = "0x" + digest
+                # tricks found here:
+                # https://stackoverflow.com/questions/21879454/how-to-convert-a-hex-string-to-hex-number
+                # https://stackoverflow.com/questions/1425493/convert-hex-to-binary
+                int_digest = int(hex_digest, 16)
+                bin_digest = f'{int_digest:0>256b}'
+                try: 
+                    digest_dict[bin_digest]
+                except KeyError:
+                    digest_dict[bin_digest] = []
+
+                digest_dict[bin_digest].append(filename) # add filename to dictionary for digest
+
+    # do some stats on the array of digests!
+    digests = list(digest_dict.keys())
+
+    # assume all hashes are of same length
+    digest_len = len(digests[0])
+
+    row_ratios = [] # place to hold ratios
+    
+    # calculate the ratio of 1s to length of digest for each digest
+    # this should hover around 0.5 if the hash is good
+    for digest in digests:
+        ratio = digest.count('1') / digest_len
+        row_ratios.append(ratio)
+
+    # compute the mean (yeah, could have summed all the ratios instead
+    # of putting them in an array but this way they're all in an array
+    # if you want to do something with the info.
+
+    row_ones_mean = numpy.mean(row_ratios)
+    row_ones_std = numpy.std(row_ratios)
+
+    # count the number of 1s in each column of the digest
+
+    column_one_counts = []
+    column_one_ratios = []
+    for i in range(digest_len):
+        column_one_counts.append(0)
+        column_one_ratios.append(0)
+
+    for digest in digests:
+        for i in range(digest_len):
+            if digest[i] == '1':
+                column_one_counts[i] += 1
+
+    # calculate the number of 1s / number of hashes for each column
+
+    for i in range(digest_len):
+        column_one_ratios[i] = column_one_counts[i] / numhashes
+
+
+    # calculate the average 
+    column_ones_mean = numpy.mean(column_one_ratios)
+    column_ones_std = numpy.std(column_one_ratios)
+
+    # print out summary statistics
+    print(f"There were {numhashes} {digest_len}-bit hashes.")
+    print(f"Row ones mean: {row_ones_mean:.4f} row ones stdev: {row_ones_std:.4f}")
+    print(f"Column ones mean: {column_ones_mean:.4f} column ones stdev: {column_ones_std:.4f}")
+    print("Column means:")
+    print(column_one_ratios)
+
+    # print out any collisions if any
+
+    print("Collisions (blank if none):")
+    for digest in digests:
+        if len(digest_dict[digest]) > 1:
+            print(digest + " <-- " + str(digest_dict[digest]))
+            collisions += len(digest_dict[digest])
+
+    print(f"Total collisions: {collisions}")
+
+    if csv_outfile != '':
+        import csv
+        with open(csv_outfile, 'w', newline = '') as csvfile:
+            csvwriter = csv.writer(csvfile, delimiter = ' ', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
+            csvwriter.writerow(['hashlen', digest_len])
+            csvwriter.writerow(['count', numhashes])
+            csvwriter.writerow(['row_ones_mean', row_ones_mean, 'row_ones_stdev', row_ones_std])
+            csvwriter.writerow(['col_ones_mean', column_ones_mean, 'col_ones_stdev', column_ones_std])
+            csvwriter.writerow(['column_means'] + column_one_ratios)
+            csvwriter.writerow(['column_means_sorted'] + sorted(column_one_ratios))
+            csvwriter.writerow(['collision_count', collisions])
+
+        csvfile.close()
+
+if __name__ == "__main__":
+    main()
