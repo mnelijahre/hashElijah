@@ -74,6 +74,7 @@ def main():
     # - convert the integer into a binary string representation
     # - store that binary string in an array
 
+    pairstore = []
     with open(infile, 'r') as myfile:
         for line in myfile:
             
@@ -81,19 +82,49 @@ def main():
             digest = m.group(1)
             filename = m.group(2)
             if digest:
-                numhashes += 1 # got a hash!
                 hex_digest = "0x" + digest
                 # tricks found here:
                 # https://stackoverflow.com/questions/21879454/how-to-convert-a-hex-string-to-hex-number
                 # https://stackoverflow.com/questions/1425493/convert-hex-to-binary
                 int_digest = int(hex_digest, 16)
                 bin_digest = f'{int_digest:0>256b}'
+
+                if altmode:
+                    # this file contains alternating orig / mod hashes
+                    
+                    # get a pair of hashes in pairstore
+                    pairstore.append(bin_digest)
+                    if len(pairstore) < 2:
+                        continue
+
+                    # we have a pair -- difference them in bin_digest
+                    # if two bits are the same, return 1 for that
+                    # bit, otherwise return 0. We would expect
+                    # approximately 50/50 1s and 0s
+                    bin_digest = ""
+                    for i in range(len(pairstore[0])):
+                        if pairstore[0][i] == pairstore[1][i]:
+                            bin_digest += "1"
+                        else:
+                            bin_digest += "0"
+
+                    # reset pairstore
+                    pairstore = []
+                    
+                    # in the next code chunk, we will append bin_digest
+                    # this difference as the "hash" for the pair as if
+                    # we had just read it from the file
+
+                # this file contains what should be 100% unique
+                # input
+
                 try: 
                     digest_dict[bin_digest]
                 except KeyError:
                     digest_dict[bin_digest] = []
 
                 digest_dict[bin_digest].append(filename) # add filename to dictionary for digest
+                numhashes += 1 # got a hash!
 
     # do some stats on the array of digests!
     digests = list(digest_dict.keys())
