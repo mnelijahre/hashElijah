@@ -12,7 +12,7 @@ def usage():
 
     Options:
 
-    -i file     File to process
+    -i file     File to process containing 256-bit or 32-bit hashes
     -a          Hashes alternate between two algorithms. (optional)
     -h          Show this screen.
     -c file     Write output to file named 'file'
@@ -82,12 +82,23 @@ def main():
             digest = m.group(1)
             filename = m.group(2)
             if digest:
+                
+                hex_digest_len = len(digest)
+
                 hex_digest = "0x" + digest
                 # tricks found here:
                 # https://stackoverflow.com/questions/21879454/how-to-convert-a-hex-string-to-hex-number
                 # https://stackoverflow.com/questions/1425493/convert-hex-to-binary
                 int_digest = int(hex_digest, 16)
-                bin_digest = f'{int_digest:0>256b}'
+
+                if hex_digest_len == 64:
+                    bin_digest = f'{int_digest:0>256b}'
+                elif hex_digest_len == 8:
+                    bin_digest = f'{int_digest:0>32b}'
+                else:
+                    print("I don't understand how to convert hashes of this length!")
+                    usage()
+                    sys.exit(1)
 
                 if altmode:
                     # this file contains alternating orig / mod hashes
@@ -174,8 +185,6 @@ def main():
     print(f"There were {numhashes} {digest_len}-bit hashes.")
     print(f"Row ones mean: {row_ones_mean:.4f} row ones stdev: {row_ones_std:.4f}")
     print(f"Column ones mean: {column_ones_mean:.4f} column ones stdev: {column_ones_std:.4f}")
-    print("Column means:")
-    print(column_one_ratios)
 
     # print out any collisions if any
 
