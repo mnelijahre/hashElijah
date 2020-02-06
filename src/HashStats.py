@@ -79,8 +79,18 @@ def main():
         for line in myfile:
             
             m = p.match(line)
-            digest = m.group(1)
-            filename = m.group(2)
+            try: 
+                digest = m.group(1)
+                filename = m.group(2)
+            except AttributeError:
+                print("The regular expression could not find both matches.")
+                print("")
+                print("Is this data in the right format?")
+                print("Format:")
+                print("hexadecimal_hash [whitespace] filename")
+                print("")
+                usage()
+                sys.exit(1)
             if digest:
                 
                 hex_digest_len = len(digest)
@@ -194,7 +204,7 @@ def main():
             print(digest + " <-- " + str(digest_dict[digest]))
             collisions += len(digest_dict[digest])
 
-    print(f"Total collisions: {collisions}")
+    print(f"Total collisions: {collisions} (there were {numhashes - collisions} unique hashes)")
 
     if csv_outfile != '':
         import csv
