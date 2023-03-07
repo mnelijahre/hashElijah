@@ -1,24 +1,24 @@
+# Your Craptographic Hash Lab
+
 The manual for this exercise is on Google Drive at:
 
 https://docs.google.com/document/d/1EsM4mnw1EQNi2srDxazJyJicQU_fXKECpAjW86x2UJQ/edit
 
-`shak/` contains numbered chunks of the compleat works of Wm.
-Shakespeare, `orig/` containing the original chunks, and `mod/`
-containing the same numbered chunks but with one byte changed.
+## Test Data
 
-`zero/` contains files made of all zeros with slight changes between
-`mod/` and `orig/`, while `random/` contains files of random data with
-slight changes between `mod/` and `orig/`. `a/` contains files that are
-a single byte. The files in `a/orig/` are all the character `a`; in
-`mod/` they are some other byte.
+There are six kinds of test data: `a`, `ones`, `random`, `shak`, and `zero`. Each directory has two subdirectories, `orig` -- containing 10k numbered samples (described below) -- and `mod` -- which contains the files from `orig` but with one random bit flipped in each file. That is, the corresponding files in `orig` and `mod` differ by one bit. All samples in `random` are 1250 bytes, but the samples in the other sets range from 1-10,000 bytes (corresponding to their filename). That is, `shak/orig/1` is a one byte sample while file `shak/orig/10000` is a 10,000-byte sample.
 
-samples/ has some files that should help test the strength of your hash
-(because they either have very little or a lot of entropy).
+The data sources are as follows:
 
- * `0` is a large file of all zeroes
- * `01` is a large file of alternating `0`s and `1`s
- * `0-prime` is like `0` but with one byte changed
- * `random` is a large random file
+ 1. `a` -- files made of the ASCII letter `a`
+ 1. `ones` -- files made of hexadecimal `0xff` (all binary 1s)
+ 1. `random` -- 1,250-byte samples of `/dev/urandom`
+ 1. `shak` -- samples taken from the [complete works of William Shakespeare](https://www.gutenberg.org/ebooks/100.txt.utf-8) (natural language)
+ 1. `zero` -- files made of hexadecimal `0x00` (all binary 0s)
+ 
+Again, with the exception of `random`, all files increase in size from 1 byte to 10,000 bytes.
+ 
+The lab manual has instructions for automating statistical tests with these input files.
 
 ## This version of SMHasher is edited for a hash lab
 The student hash goes into src/StudentHash.cpp. You can then compile both the individual runner and SMhasher by running "make". 
@@ -41,6 +41,10 @@ The SMHasher suite also includes [MurmurHash3](https://github.com/aappleby/smhas
 
 
 ## Updates
+
+### 3/7/2023
+
+I've updated and recreated the test files because there were some collisions and the set of files weren't large enough.
 
 ### 1/8/2016
 
