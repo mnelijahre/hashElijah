@@ -2,6 +2,8 @@
 
 OPTIND=""
 RUNNER="./runner"
+START=1
+END=10000
 
 usage() {
 
@@ -48,7 +50,7 @@ then
 	exit 1
 fi
 
-for dir in shak zero random
+for dir in a ones shak zero random
 do
 	for type in orig mod
 	do
@@ -57,7 +59,7 @@ do
 		then
 			rm $dir/$dir.$type
 		fi
-		for i in $(seq 1 1000); do $RUNNER $dir/$type/$i >> $dir/$dir.$type; done
+		for i in $(seq $START $END); do $RUNNER $dir/$type/$i >> $dir/$dir.$type; done
 	done
 
 	if [[ -f $dir/$dir.alt ]]
@@ -65,5 +67,5 @@ do
 		rm $dir/$dir.alt	
 	fi
 	echo "Creating $dir/$type.alt (alternating)"
-	for i in $(seq 1 1000); do $RUNNER $dir/orig/$i >> $dir/$dir.alt; $RUNNER $dir/mod/$i >> $dir/$dir.alt; done
+	for i in $(seq $START $END); do $RUNNER $dir/orig/$i >> $dir/$dir.alt; $RUNNER $dir/mod/$i >> $dir/$dir.alt; done
 done
