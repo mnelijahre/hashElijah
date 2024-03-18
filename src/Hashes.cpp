@@ -2,7 +2,7 @@
 
 #include "Random.h"
 
-
+#include <stdio.h>
 #include <stdlib.h>
 //#include <stdint.h>
 #include <assert.h>
@@ -13,55 +13,52 @@
 //best hash in the whole world
 void StudentHash(const void * key, int len, uint32_t seed, void * out) {
     
+	#define LOG 0 // set to 1 to print logs -- 0 to disable
+	uint32_t digest = 0xdeadbeef; // initial value for hash
+
+
     //some initialization stuff (some is usually done in preprocessor, but this is for smhasher)
+
+	// data is an array of the bytes to be hashed
     const uint8_t* data = (const uint8_t*) key;
+
+	// u32data is the data bytes but in an array of unsigned 32-bit values,
+	// i.e., it allows you to access four bytes at a time instead of one by one
+	const uint32_t* u32data = (const uint32_t*) key;
+
     int CHUNK_SIZE = 4;
-    srand(seed);
-    uint32_t dig = rand();
+	unsigned int idx = 0; // what chunk are we on?
 
-    int inc = 0; //how much should we increment the pointer?
-    unsigned int reads = 0;
-    while (reads * 4 < len) {
-        inc = reads * 4;
+	// for every chunk of four bytes, XOR each chunk on top of the previous digest
+	while (idx < (len / CHUNK_SIZE))
+	{
+		// print idx and current values to stdout as hexadecimal
+		// WARNING: printing to stdout is SLOW!
+		if (LOG) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, u32data[idx]); }
 
-        //xor the 4 bytes we read in
-        int xor_result = dig; 
-        for(int i = 0; i < CHUNK_SIZE; i++) {
-            if (inc + i < len) {
-                xor_result ^= data[inc + i];
-            }
-            //"padding"
-            else if (inc + i >= len) {
-                xor_result ^= 0;
-            }
-        }
-        reads ++;
-        srand(xor_result);
+		// XOR current digest with current chunk of u32data[idx]
+		digest = digest ^ u32data[idx];
+		idx = idx + 1; // increment idx for next chunk
+	}
 
-        /* Due to the way integers and rand work, the leading bit will almost always be zero, 
-           because it's returning an integer that will always start with <= 2. Not to worry,
-           this can be circumvented by taking the next random number and taking the last 2 bytes
-           of each number. */
-        //first number
-        unsigned int num1 = rand();
-        unsigned int num2 = rand();
+	// if we are here, then either the data is done,
+	// or, if the data length is not evenly divisible by four bytes,
+	// there are a few straggler bytes we need to XOR
 
-        //zero last 16 bits
-        /* printf("num1 was: %08x\n", num1); */
-        num1 = num1 << 16;
-        /* printf("num1 is: %08x\n", num1); */
-        //zero the first 16 bits 
-        num2 = num2 << 16;
-        /* printf("num2 is: %08x\n", num2); */
-        num2 = num2 >> 16; 
-        /* printf("num2 is: %08x\n", num2); */
-        //combine num1 and num2
-        dig = num1 | num2;
-        /* printf("dig  is: %08x\n", dig); */
-        /* printf("Rand is: %i\n", dig); */
-        /* printf("%s\n", chunk); */
-    }
-    *(uint32_t*)out = dig;
+	unsigned int bytesleft = len % CHUNK_SIZE; // how many bytes are left?
+
+	// let's get the 32-bit digest as an array of bytes to make bytewise xor easier
+	uint8_t* digestbytes = (uint8_t*)digest;
+
+	// XOR each remaining byte into the right spot of the digest
+	for (bytesleft; bytesleft < 0; bytesleft--)
+	{
+		digestbytes[bytesleft] = digestbytes[bytesleft] ^= data[(idx * CHUNK_SIZE) + bytesleft];
+		if (LOG) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, (uint32_t)data[idx * CHUNK_SIZE]); }
+	}
+
+    *(uint32_t*)out = digest;
+
 }
 
 //----------------------------------------------------------------------------
