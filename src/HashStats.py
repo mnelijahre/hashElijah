@@ -16,6 +16,7 @@ def usage():
     -a          Hashes alternate between two algorithms. (optional)
     -h          Show this screen.
     -c file     Write output to file named 'file'
+    -v          Be verbose (e.g., print collision file numbers)
 
     """
 
@@ -30,13 +31,14 @@ def main():
     numhashes = 0       # how many digests are we processing (for mean)
     digest_len = 0      # how long are the digests in this file (assumes all same)
     collisions = 0      # how many collisions have we seen with this input?
+    verbose = 0         # switch for being verbose
     csv_outfile = ''
     
     # use getopts to handle commandline switches (getopt is so rad and
     # exists for bash, too!)
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'i:ahc:')
+        opts, args = getopt.getopt(sys.argv[1:], 'i:ahc:v')
     except getopt.GetoptError as err:
         usage()
         print ("Error:")
@@ -115,10 +117,12 @@ def main():
                     
                     # get a pair of hashes in pairstore
                     pairstore.append(bin_digest)
-                    if len(pairstore) < 2:
-                        continue
 
-                    # we have a pair -- difference them in bin_digest
+                    # if we have one has in pairstore, get another
+                    if len(pairstore) < 2:
+                        continue # get next hash
+
+                    # now we have a pair -- difference them in bin_digest
                     # if two bits are the same, return 1 for that
                     # bit, otherwise return 0. We would expect
                     # approximately 50/50 1s and 0s
@@ -168,23 +172,27 @@ def main():
     row_ones_mean = numpy.mean(row_ratios)
     row_ones_std = numpy.std(row_ratios)
 
-    # count the number of 1s in each column of the digest
+    # what is the ratio of 1s to 0s in each column?
 
     column_one_counts = []
     column_one_ratios = []
+
+    # make arrays with one item per column
     for i in range(digest_len):
         column_one_counts.append(0)
         column_one_ratios.append(0)
 
+    # count the 1s in each column
     for digest in digests:
         for i in range(digest_len):
+            # check each column for a 1
             if digest[i] == '1':
-                column_one_counts[i] += 1
+                column_one_counts[i] += 1 # the number of 1s in this column of all digests
 
     # calculate the number of 1s / number of hashes for each column
 
     for i in range(digest_len):
-        column_one_ratios[i] = column_one_counts[i] / numhashes
+        column_one_ratios[i] = column_one_counts[i] / len(digests)
 
 
     # calculate the average 
@@ -192,26 +200,38 @@ def main():
     column_ones_std = numpy.std(column_one_ratios)
 
     # print out summary statistics
-    print(f"There were {numhashes} {digest_len}-bit hashes.")
-    print(f"Row ones mean: {row_ones_mean:.4f} row ones stdev: {row_ones_std:.4f}")
-    print(f"Column ones mean: {column_ones_mean:.4f} column ones stdev: {column_ones_std:.4f}")
+    print(f"There were {numhashes} {digest_len}-bit hashes, and {len(digests)} unique digests.")
+    print("All below ratios should be near 0.5!")
+    print(f"Avg. ratio of 1/0s per digest: {row_ones_mean:.4f} row ones stdev: {row_ones_std:.4f}")
+    print(f"Avg. ratio of 1/0s per column: {column_ones_mean:.4f} column ones stdev: {column_ones_std:.4f}")
 
-    # print out any collisions if any
+    print("Column ratios sorted:")
+    print(column_one_ratios)
+        
+    if altmode:
+        print("These statistics describe pairs of related inputs.")
+        print("Column ratios should be near 0.5 to indicate strict avalache on a 1-bit change.")
+    else:
+        # print out any collisions if any
+        print("Collisions (blank if none):")
+        for digest in digests:
+    
+            if len(digest_dict[digest]) > 1:
+                print(f"{len(digest_dict[digest])} collisions for digest {digest}") #, len(digest_dict[digest]), digest)
+                if verbose:
+                    print("Colliding inputs: " + str(digest_dict[digest]))
+                    print()
 
-    print("Collisions (blank if none):")
-    for digest in digests:
-        if len(digest_dict[digest]) > 1:
-            print(digest + " <-- " + str(digest_dict[digest]))
-            collisions += len(digest_dict[digest])
+                collisions += len(digest_dict[digest])
 
-    print(f"Total collisions: {collisions} (there were {numhashes - collisions} unique hashes)")
+        print(f"Total collisions: {collisions} (there were {numhashes - collisions} unique hashes)")
 
     if csv_outfile != '':
         import csv
         with open(csv_outfile, 'w', newline = '') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter = ' ', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
             csvwriter.writerow(['hashlen', digest_len])
-            csvwriter.writerow(['count', numhashes])
+            csvwriter.writerow(['filecount', numhashes])
             csvwriter.writerow(['row_ones_mean', row_ones_mean, 'row_ones_stdev', row_ones_std])
             csvwriter.writerow(['col_ones_mean', column_ones_mean, 'col_ones_stdev', column_ones_std])
             csvwriter.writerow(['column_means'] + column_one_ratios)
