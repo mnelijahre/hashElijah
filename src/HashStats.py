@@ -217,12 +217,12 @@ def main():
         for digest in digests:
     
             if len(digest_dict[digest]) > 1:
-                print(f"{len(digest_dict[digest])} collisions for digest {digest}") #, len(digest_dict[digest]), digest)
+                print(f"{len(digest_dict[digest]) -1} collisions for digest {digest}") #, len(digest_dict[digest]), digest)
                 if verbose:
                     print("Colliding inputs: " + str(digest_dict[digest]))
                     print()
 
-                collisions += len(digest_dict[digest])
+                collisions += len(digest_dict[digest]) - 1
 
         print(f"Total collisions: {collisions} (there were {numhashes - collisions} unique hashes)")
 
