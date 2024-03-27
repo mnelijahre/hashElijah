@@ -229,7 +229,7 @@ def main():
     if csv_outfile != '':
         import csv
         with open(csv_outfile, 'w', newline = '') as csvfile:
-            csvwriter = csv.writer(csvfile, delimiter = ' ', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
+            csvwriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
             csvwriter.writerow(['hashlen', digest_len])
             csvwriter.writerow(['filecount', numhashes])
             csvwriter.writerow(['row_ones_mean', row_ones_mean, 'row_ones_stdev', row_ones_std])
