@@ -2,7 +2,13 @@
 
 The [manual for this exercise is on Google Drive](https://docs.google.com/document/d/1EsM4mnw1EQNi2srDxazJyJicQU_fXKECpAjW86x2UJQ/edit); instructions for the lab are there. This readme discusses the contents of this repository in brief.
 
+## Installation Instructions
 
+You will need `python3` of course, and potentially `python3-numpy`. Install it with:
+
+```
+$ apt-get install python3-numpy
+```
 
 ## Test Data
 
