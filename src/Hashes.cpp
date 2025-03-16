@@ -14,12 +14,11 @@
 void StudentHash(const void * key, int len, uint32_t seed, void * out) {
     
 	#define LOG 0 // set to 1 to print logs -- 0 to disable
-	uint32_t digest = 0xdeadbeef; // initial value for hash
-
+	uint32_t digest = 0xdeadbeef; // initialization vector (initial value) for hash
 
     //some initialization stuff (some is usually done in preprocessor, but this is for smhasher)
 
-	// data is an array of the bytes to be hashed
+	// data is an array of the bytes to be hashed in case you want it
     const uint8_t* data = (const uint8_t*) key;
 
 	// u32data is the data bytes but in an array of unsigned 32-bit values,
@@ -36,27 +35,29 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 		// WARNING: printing to stdout is SLOW!
 		if (LOG) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, u32data[idx]); }
 
+		/****************************************************
+		 * COMBINE step -- combine input with current state *
+		 ***************************************************/
 		// XOR current digest with current chunk of u32data[idx]
 		digest = digest ^ u32data[idx];
+
+		/**********************************************************
+		 * MIX step -- randomize the state somehow (e.g., rotate) *
+		 *********************************************************/
+		
+		// adding something here may help reduce collisions...
+
+		/*****************************
+		 * PREPARE for next chunk... *
+		 ****************************/
 		idx = idx + 1; // increment idx for next chunk
 	}
 
-	// if we are here, then either the data is done,
-	// or, if the data length is not evenly divisible by four bytes,
-	// there are a few straggler bytes we need to XOR
-
-	unsigned int bytesleft = len % CHUNK_SIZE; // how many bytes are left?
-
-	// let's get the 32-bit digest as an array of bytes to make bytewise xor easier
-	uint8_t* digestbytes = (uint8_t*)digest;
-
-	// XOR each remaining byte into the right spot of the digest
-	for (bytesleft; bytesleft < 0; bytesleft--)
-	{
-		digestbytes[bytesleft] = digestbytes[bytesleft] ^= data[(idx * CHUNK_SIZE) + bytesleft];
-		if (LOG) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, (uint32_t)data[idx * CHUNK_SIZE]); }
-	}
-
+	// smhasher pads data with zeros to multiples of 32-bits,
+	// so we know that the input will always end on a chunk
+	// (i.e., there won't be any straggler bytes).
+	// ... this means we're done!
+	
     *(uint32_t*)out = digest;
 
 }

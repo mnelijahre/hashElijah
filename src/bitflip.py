@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Toggle the bit at the specified offset.
+Useful for creating test files for hashes.
 Syntax: <cmdname> filename bit-offset"""
 
 # the basis for this script was taken from:
@@ -20,10 +21,14 @@ fp = open(fname, "r+b")
 # Convert bit offset to bytes + leftover bits
 
 # get bit position explicitly
+target = int(sys.argv[2])
+
+# printing is slow when processing many files
+# print("Flipping the %s th bit in %s which is %d bytes long..." % (target, fname, filelen))
+
 try:
-    target = int(sys.argv[2])
     if target > filebits:
-        print("There aren't that many bits in this (%-byte) file!", filelen)
+        print("There aren't that many bits in this (%d-byte) file!" % (filelen))
 except IndexError:
     # pick a random bit position in the file
     target = random.randint(0, filebits-1)
