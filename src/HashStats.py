@@ -67,7 +67,8 @@ def main():
         sys.exit(2)
 
     # compile regular expression to extract the digest from the file
-    p = re.compile("^([0-9a-f]+)+[\w/]+/(\d+)$")
+    p = re.compile(r"^([0-9a-fA-F]+)\s+(.+)$")
+
    
 
     # loop through the file and do the following:

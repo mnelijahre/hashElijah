@@ -33,7 +33,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 	{
 		// print idx and current values to stdout as hexadecimal
 		// WARNING: printing to stdout is SLOW!
-		if (LOG || true) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, u32data[idx]); }
+	//	if (LOG) { printf("digest: %08x - idx %u - %08x (printing is slow!)\n", digest, idx, u32data[idx]); }
     
     uint8_t *bytes = (uint8_t *)&digest;
     uint32_t endThing = 0;
@@ -42,7 +42,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
     for (int i = sizeof(digest)/2 - 1; i >= 0; i--) {
       endThing |= ((uint32_t)bytes[i] << (i * 8));  // Shift bytes into place
     }
-    printf("uint: %08x\n", endThing );
+   // printf("uint: %08x\n", endThing );
 
     uint8_t temp = bytes[0];
     bytes[0] = bytes[2];
@@ -51,7 +51,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
     temp = bytes[1];
     bytes[1] = bytes[3];
     bytes[3] = temp;
-    digest = (uint32_t)*bytes;
+    digest = *(uint32_t*)bytes;
 
 		digest = digest ^ u32data[idx];
 
