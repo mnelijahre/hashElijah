@@ -1,0 +1,333 @@
+1% ./sma[K[K[KSm[K[Ksma[K[K[K[K[Kls
+a		   crc.cpp		 main.cpp	  MurmurHash3.h  screenlog.0	 Stats.cpp
+AvalancheTest.cpp  DifferentialTest.cpp  MakeCsv.sh	  ones		 screenlog.1	 Stats.h
+AvalancheTest.h    DifferentialTest.h	 Makefile	  Platform.cpp	 screenlog.2	 StudentHashRunner.c
+bitflip.py	   hash_analysis.xlsx	 MakeHashes.sh	  Platform.h	 sha1.cpp	 SuperFastHash.cpp
+Bitslice.cpp	   Hashes.cpp		 md5.cpp	  PMurHash.c	 sha1.h		 Types.cpp
+Bitvec.cpp	   hashes.csv		 modchecker.sh	  PMurHash.h	 shak		 Types.h
+Bitvec.h	   Hashes.h		 MurmurHash1.cpp  pstdint.h	 SpeedTest.cpp	 zero
+City.cpp	   HashStats.py		 MurmurHash1.h	  random	 SpeedTest.h
+City.h		   KeysetTest.cpp	 MurmurHash2.cpp  Random.cpp	 Spooky.cpp
+CityTest.cpp	   KeysetTest.h		 MurmurHash2.h	  Random.h	 Spooky.h
+CMakeLists.txt	   lookup3.cpp		 MurmurHash3.cpp  runner	 SpookyTest.cpp
+2% ./sma[Kh[K[K[K[K[Kmake
+g++  AvalancheTest.cpp MurmurHash1.cpp Random.cpp Stats.cpp Hashes.cpp Bitslice.cpp MurmurHash2.cpp Bitvec.cpp KeysetTest.cpp sha1.cpp MurmurHash3.cpp City.cpp  lookup3.cpp  Platform.cpp SpeedTest.cpp CityTest.cpp main.cpp SuperFastHash.cpp PMurHash.c Spooky.cpp Types.cpp crc.cpp DifferentialTest.cpp md5.cpp SpookyTest.cpp -o smhasher
+[01m[KSpeedTest.cpp:[m[K In function ‘[01m[Kint64_t timehash(pfHash, const void*, int, int)[m[K’:
+[01m[KSpeedTest.cpp:153:29:[m[K [01;35m[Kwarning: [m[KISO C++17 does not allow ‘[01m[Kregister[m[K’ storage class specifier [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wregister-Wregister]8;;[m[K]
+  153 |   volatile register int64_t [01;35m[Kbegin[m[K,end;
+      |                             [01;35m[K^~~~~[m[K
+[01m[KSpeedTest.cpp:153:35:[m[K [01;35m[Kwarning: [m[KISO C++17 does not allow ‘[01m[Kregister[m[K’ storage class specifier [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wregister-Wregister]8;;[m[K]
+  153 |   volatile register int64_t begin,[01;35m[Kend[m[K;
+      |                                   [01;35m[K^~~[m[K
+3% ./smhasher StudentHashRunner.c [K[K[K[K[K[K[K[K
+-------------------------------------------------------------------------------
+--- Testing StudentHash (The best hash algorithm ever written!)
+
+[[[ Speed Tests ]]]
+
+Bulk speed test - 262144-byte keys
+Alignment  0 -  0.014 bytes/cycle -   40.20 MiB/sec @ 3 ghz
+Alignment  1 -  0.014 bytes/cycle -   40.17 MiB/sec @ 3 ghz
+Alignment  2 -  0.014 bytes/cycle -   40.11 MiB/sec @ 3 ghz
+Alignment  3 -  0.014 bytes/cycle -   40.13 MiB/sec @ 3 ghz
+Alignment  4 -  0.014 bytes/cycle -   40.11 MiB/sec @ 3 ghz
+Alignment  5 -  0.014 bytes/cycle -   40.15 MiB/sec @ 3 ghz
+Alignment  6 -  0.014 bytes/cycle -   40.20 MiB/sec @ 3 ghz
+Alignment  7 -  0.014 bytes/cycle -   40.12 MiB/sec @ 3 ghz
+
+Small key speed test -    1-byte keys -    58.03 cycles/hash
+Small key speed test -    2-byte keys -    58.08 cycles/hash
+Small key speed test -    3-byte keys -    58.02 cycles/hash
+Small key speed test -    4-byte keys -   298.94 cycles/hash
+Small key speed test -    5-byte keys -   298.42 cycles/hash
+Small key speed test -    6-byte keys -   298.65 cycles/hash
+Small key speed test -    7-byte keys -   298.67 cycles/hash
+Small key speed test -    8-byte keys -   580.21 cycles/hash
+Small key speed test -    9-byte keys -   580.03 cycles/hash
+Small key speed test -   10-byte keys -   578.61 cycles/hash
+Small key speed test -   11-byte keys -   578.96 cycles/hash
+Small key speed test -   12-byte keys -   863.67 cycles/hash
+Small key speed test -   13-byte keys -   865.75 cycles/hash
+Small key speed test -   14-byte keys -   865.81 cycles/hash
+Small key speed test -   15-byte keys -   865.77 cycles/hash
+Small key speed test -   16-byte keys -  1150.74 cycles/hash
+Small key speed test -   17-byte keys -  1150.19 cycles/hash
+Small key speed test -   18-byte keys -  1150.38 cycles/hash
+Small key speed test -   19-byte keys -  1151.56 cycles/hash
+Small key speed test -   20-byte keys -  1431.98 cycles/hash
+Small key speed test -   21-byte keys -  1432.32 cycles/hash
+Small key speed test -   22-byte keys -  1434.67 cycles/hash
+Small key speed test -   23-byte keys -  1435.73 cycles/hash
+Small key speed test -   24-byte keys -  1720.95 cycles/hash
+Small key speed test -   25-byte keys -  1720.65 cycles/hash
+Small key speed test -   26-byte keys -  1720.87 cycles/hash
+Small key speed test -   27-byte keys -  1720.55 cycles/hash
+Small key speed test -   28-byte keys -  2005.35 cycles/hash
+Small key speed test -   29-byte keys -  2002.16 cycles/hash
+Small key speed test -   30-byte keys -  2002.91 cycles/hash
+Small key speed test -   31-byte keys -  2005.58 cycles/hash
+
+[[[ Differential Tests ]]]
+
+Testing 8303632 up-to-5-bit differentials in 64-bit keys -> 32 bit hashes.
+1000 reps, 8303632000 total tests, expecting 1.93 random collisions..........
+12 total collisions, of which 12 single collisions were ignored
+
+Testing 11017632 up-to-4-bit differentials in 128-bit keys -> 32 bit hashes.
+1000 reps, 11017632000 total tests, expecting 2.57 random collisions..........
+23 total collisions, of which 23 single collisions were ignored
+
+Testing 2796416 up-to-3-bit differentials in 256-bit keys -> 32 bit hashes.
+1000 reps, 2796416000 total tests, expecting 0.65 random collisions..........
+10 total collisions, of which 10 single collisions were ignored
+
+
+[[[ Avalanche Tests ]]]
+
+Testing  32-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  40-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  48-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  56-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  64-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  72-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  80-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  88-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing  96-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 104-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 112-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 120-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 128-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 136-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 144-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+Testing 152-bit keys ->  32-bit hashes,   300000 reps.......... worst bias is 100.000000% !!!!! 
+*********FAIL*********
+
+[[[ Keyset 'Cyclic' Tests ]]]
+
+Keyset 'Cyclic' - 8 cycles of 4 bytes - 10000000 keys
+Testing collisions   - Expected 11641.53, actual 11675.00 ( 1.00x)
+Testing distribution - Worst bias is the  20-bit window at bit  31 - 0.024%
+
+Keyset 'Cyclic' - 8 cycles of 5 bytes - 10000000 keys
+Testing collisions   - Expected 11641.53, actual 11498.00 ( 0.99x)
+Testing distribution - Worst bias is the  20-bit window at bit  24 - 0.040%
+
+Keyset 'Cyclic' - 8 cycles of 6 bytes - 10000000 keys
+Testing collisions   - Expected 11641.53, actual 11558.00 ( 0.99x)
+Testing distribution - Worst bias is the  20-bit window at bit  18 - 0.018%
+
+Keyset 'Cyclic' - 8 cycles of 7 bytes - 10000000 keys
+Testing collisions   - Expected 11641.53, actual 11595.00 ( 1.00x)
+Testing distribution - Worst bias is the  20-bit window at bit  13 - 0.032%
+
+Keyset 'Cyclic' - 8 cycles of 8 bytes - 10000000 keys
+Testing collisions   - Expected 11641.53, actual 11624.00 ( 1.00x)
+Testing distribution - Worst bias is the  20-bit window at bit  31 - 0.033%
+
+
+[[[ Keyset 'TwoBytes' Tests ]]]
+
+Keyset 'TwoBytes' - up-to-4-byte keys, 652545 total keys
+Testing collisions   - Expected    49.57, actual 261374.00 (5272.69x) !!!!! 
+Testing distribution - Worst bias is the  16-bit window at bit   0 - 99.991% !!!!! 
+
+Keyset 'TwoBytes' - up-to-8-byte keys, 5471025 total keys
+Testing collisions   - Expected  3484.56, actual 3258111.00 (935.01x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit  16 - 99.995% !!!!! 
+
+Keyset 'TwoBytes' - up-to-12-byte keys, 18616785 total keys
+Testing collisions   - Expected 40347.77, actual 12124758.00 (300.51x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit   0 - 99.970% !!!!! 
+
+Keyset 'TwoBytes' - up-to-16-byte keys, 44251425 total keys
+Testing collisions   - Expected 227963.15, actual 30048053.00 (131.81x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit   0 - 99.884% !!!!! 
+
+Keyset 'TwoBytes' - up-to-20-byte keys, 86536545 total keys
+Testing collisions   - Expected 871784.70, actual 60337996.00 (69.21x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit  16 - 99.671% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Sparse' Tests ]]]
+
+Keyset 'Sparse' - 32-bit keys with up to 6 bits set - 1149017 keys
+Testing collisions   - Expected   153.70, actual     0.00 ( 0.00x)
+Testing distribution - Worst bias is the  17-bit window at bit   0 - 99.218% !!!!! 
+
+Keyset 'Sparse' - 40-bit keys with up to 6 bits set - 4598479 keys
+Testing collisions   - Expected  2461.72, actual 3449462.00 (1401.24x) !!!!! 
+Testing distribution - Worst bias is the  19-bit window at bit   0 - 99.881% !!!!! 
+
+Keyset 'Sparse' - 48-bit keys with up to 5 bits set - 1925357 keys
+Testing collisions   - Expected   431.55, actual 1682532.00 (3898.80x) !!!!! 
+Testing distribution - Worst bias is the  18-bit window at bit   0 - 99.973% !!!!! 
+
+Keyset 'Sparse' - 56-bit keys with up to 5 bits set - 4216423 keys
+Testing collisions   - Expected  2069.66, actual 3973598.00 (1919.93x) !!!!! 
+Testing distribution - Worst bias is the  19-bit window at bit   0 - 99.991% !!!!! 
+
+Keyset 'Sparse' - 64-bit keys with up to 5 bits set - 8303633 keys
+Testing collisions   - Expected  8026.87, actual 25624.00 ( 3.19x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit  31 - 88.159% !!!!! 
+
+Keyset 'Sparse' - 96-bit keys with up to 4 bits set - 3469497 keys
+Testing collisions   - Expected  1401.34, actual  7077.00 ( 5.05x) !!!!! 
+Testing distribution - Worst bias is the  19-bit window at bit   0 - 86.620% !!!!! 
+
+Keyset 'Sparse' - 256-bit keys with up to 3 bits set - 2796417 keys
+Testing collisions   - Expected   910.36, actual  9629.00 (10.58x) !!!!! 
+Testing distribution - Worst bias is the  19-bit window at bit  16 - 86.596% !!!!! 
+
+Keyset 'Sparse' - 2048-bit keys with up to 2 bits set - 2098177 keys
+Testing collisions   - Expected   512.50, actual 41863.00 (81.68x) !!!!! 
+Testing distribution - Worst bias is the  18-bit window at bit  17 - 75.001% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Combination Lowbits' Tests ]]]
+
+Keyset 'Combination' - up to 8 blocks from a set of 8 - 19173960 keys
+Testing collisions   - Expected 42799.01, actual 44064.00 ( 1.03x)
+Testing distribution - Worst bias is the  20-bit window at bit   9 - 27.697% !!!!! 
+
+
+[[[ Keyset 'Combination Highbits' Tests ]]]
+
+Keyset 'Combination' - up to 8 blocks from a set of 8 - 19173960 keys
+Testing collisions   - Expected 42799.01, actual 377328.00 ( 8.82x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit   0 - 88.073% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Combination 0x8000000' Tests ]]]
+
+Keyset 'Combination' - up to 20 blocks from a set of 2 - 2097150 keys
+Testing collisions   - Expected   512.00, actual  6928.00 (13.53x) !!!!! 
+Testing distribution - Worst bias is the  18-bit window at bit   0 - 75.762% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Combination 0x0000001' Tests ]]]
+
+Keyset 'Combination' - up to 20 blocks from a set of 2 - 2097150 keys
+Testing collisions   - Expected   512.00, actual  3298.00 ( 6.44x) !!!!! 
+Testing distribution - Worst bias is the  18-bit window at bit   1 - 75.759% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Combination Hi-Lo' Tests ]]]
+
+Keyset 'Combination' - up to 6 blocks from a set of 15 - 12204240 keys
+Testing collisions   - Expected 17339.30, actual 44540.00 ( 2.57x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit   0 - 64.843% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Window' Tests ]]]
+
+Keyset 'Windowed' -  64-bit key,  20-bit window - 64 tests, 1048576 keys per test
+Window at   0 - Testing collisions   - Expected   128.00, actual   765.00 ( 5.98x) !!!!! 
+Window at   1 - Testing collisions   - Expected   128.00, actual   971.00 ( 7.59x) !!!!! 
+Window at   2 - Testing collisions   - Expected   128.00, actual   543.00 ( 4.24x) !!!!! 
+Window at   3 - Testing collisions   - Expected   128.00, actual   538.00 ( 4.20x) !!!!! 
+Window at   4 - Testing collisions   - Expected   128.00, actual   513.00 ( 4.01x) !!!!! 
+Window at   5 - Testing collisions   - Expected   128.00, actual   560.00 ( 4.38x) !!!!! 
+Window at   6 - Testing collisions   - Expected   128.00, actual   912.00 ( 7.13x) !!!!! 
+Window at   7 - Testing collisions   - Expected   128.00, actual   807.00 ( 6.30x) !!!!! 
+Window at   8 - Testing collisions   - Expected   128.00, actual   764.00 ( 5.97x) !!!!! 
+Window at   9 - Testing collisions   - Expected   128.00, actual   597.00 ( 4.66x) !!!!! 
+Window at  10 - Testing collisions   - Expected   128.00, actual   511.00 ( 3.99x) !!!!! 
+Window at  11 - Testing collisions   - Expected   128.00, actual   519.00 ( 4.05x) !!!!! 
+Window at  12 - Testing collisions   - Expected   128.00, actual   540.00 ( 4.22x) !!!!! 
+Window at  13 - Testing collisions   - Expected   128.00, actual   274.00 ( 2.14x) !!!!! 
+Window at  14 - Testing collisions   - Expected   128.00, actual   180.00 ( 1.41x)
+Window at  15 - Testing collisions   - Expected   128.00, actual   128.00 ( 1.00x)
+Window at  16 - Testing collisions   - Expected   128.00, actual   160.00 ( 1.25x)
+Window at  17 - Testing collisions   - Expected   128.00, actual    96.00 ( 0.75x)
+Window at  18 - Testing collisions   - Expected   128.00, actual   128.00 ( 1.00x)
+Window at  19 - Testing collisions   - Expected   128.00, actual   256.00 ( 2.00x) !!!!! 
+Window at  20 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  21 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  22 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  23 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  24 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  25 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  26 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  27 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  28 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  29 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  30 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  31 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  32 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  33 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  34 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  35 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  36 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  37 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  38 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  39 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  40 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  41 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  42 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  43 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  44 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  45 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  46 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  47 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  48 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  49 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  50 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  51 - Testing collisions   - Expected   128.00, actual     0.00 ( 0.00x)
+Window at  52 - Testing collisions   - Expected   128.00, actual  4096.00 (32.00x) !!!!! 
+Window at  53 - Testing collisions   - Expected   128.00, actual  2048.00 (16.00x) !!!!! 
+Window at  54 - Testing collisions   - Expected   128.00, actual  1024.00 ( 8.00x) !!!!! 
+Window at  55 - Testing collisions   - Expected   128.00, actual   512.00 ( 4.00x) !!!!! 
+Window at  56 - Testing collisions   - Expected   128.00, actual  1024.00 ( 8.00x) !!!!! 
+Window at  57 - Testing collisions   - Expected   128.00, actual   640.00 ( 5.00x) !!!!! 
+Window at  58 - Testing collisions   - Expected   128.00, actual   768.00 ( 6.00x) !!!!! 
+Window at  59 - Testing collisions   - Expected   128.00, actual   960.00 ( 7.50x) !!!!! 
+Window at  60 - Testing collisions   - Expected   128.00, actual   912.00 ( 7.13x) !!!!! 
+Window at  61 - Testing collisions   - Expected   128.00, actual  1016.00 ( 7.94x) !!!!! 
+Window at  62 - Testing collisions   - Expected   128.00, actual   964.00 ( 7.53x) !!!!! 
+Window at  63 - Testing collisions   - Expected   128.00, actual   776.00 ( 6.06x) !!!!! 
+Window at  64 - Testing collisions   - Expected   128.00, actual   765.00 ( 5.98x) !!!!! 
+*********FAIL*********
+
+[[[ Keyset 'Text' Tests ]]]
+
+Keyset 'Text' - keys of form "Foo[XXXX]Bar" - 14776336 keys
+Testing collisions   - Expected 25418.13, actual     0.00 ( 0.00x)
+Testing distribution - Worst bias is the  20-bit window at bit  12 - 98.300% !!!!! 
+
+Keyset 'Text' - keys of form "FooBar[XXXX]" - 14776336 keys
+Testing collisions   - Expected 25418.13, actual 14772492.00 (581.18x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit  28 - 100.000% !!!!! 
+
+Keyset 'Text' - keys of form "[XXXX]FooBar" - 14776336 keys
+Testing collisions   - Expected 25418.13, actual 173978.00 ( 6.84x) !!!!! 
+Testing distribution - Worst bias is the  20-bit window at bit   0 - 87.500% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Zeroes' Tests ]]]
+
+Keyset 'Zeroes' - 65536 keys
+Testing collisions   - Expected     0.50, actual 49152.00 (98305.50x) !!!!! 
+Testing distribution - Worst bias is the  13-bit window at bit  30 - 28.523% !!!!! 
+
+*********FAIL*********
+
+[[[ Keyset 'Seed' Tests ]]]
+
+Keyset 'Seed' - 1000000 keys
+Testing collisions   - Expected   116.42, actual 999744.00 (8587.74x) !!!!! 
+Testing distribution - Worst bias is the  17-bit window at bit   9 - 99.806% !!!!! 
+
+*********FAIL*********
+
+
+Input vcode 0x2ccfe463, Output vcode 0xadbb847a, Result vcode 0x00000001
+Verification value is 0x00000001 - Testing took -1113.781485 seconds
+-------------------------------------------------------------------------------
+4% ./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[Kdddddddddd[K[K[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[K[K4% lsmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K./smhasher StudentHash[4Gmake[K4% ls[Kmake4% ./smhasher StudentHash[4G[K

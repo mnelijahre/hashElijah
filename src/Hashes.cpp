@@ -32,7 +32,6 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 	{
 		uint8_t *bytes = (uint8_t *)&digest;	
 
-		//Swap Bytes
 		uint8_t temp0 = bytes[0];
 		bytes[0] = bytes[2];
 		bytes[2] = temp0;
@@ -41,12 +40,10 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 		bytes[1] = bytes[3];
 		bytes[3] = temp1;
 
-		//Mod with each other
 		for (int i = 1; i < 12; i++) {
 			bytes[i%4] = (1*bytes[i%4] + 2*bytes[(i+1)%4] + 3*bytes[(i+2)%4] + 4*bytes[(i+3)%4] ) % 256;
 		}
 
-		// XOR bytes against each other for diffusion
 		bytes[0] ^= (bytes[1] + seed + 1);
 		bytes[1] ^= (bytes[2] + seed + 2);
 		bytes[2] ^= (bytes[3] + seed + 3);
@@ -54,7 +51,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 
 		digest = *(uint32_t*)bytes;
 
-		digest = (digest << 13) | (digest >> (32 - 13)); // Left rotate by 13 bits
+		digest = (digest << 13) | (digest >> (32 - 13));
 		digest ^= digest >> 13;
 		digest *= 0xabcdefab;
 		digest ^= digest >> 2;
