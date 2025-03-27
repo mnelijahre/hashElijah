@@ -30,14 +30,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 	// for every chunk of four bytes, XOR each chunk on top of the previous digest
 	while (idx < (len / CHUNK_SIZE))
 	{
-		uint8_t *bytes = (uint8_t *)&digest;
-		uint32_t endThing = 0;
-
-
-		for (int i = sizeof(digest)/2 - 1; i >= 0; i--) {
-			endThing |= ((uint32_t)bytes[i] << (i * 8));  // Shift bytes into place
-		}	
-
+		uint8_t *bytes = (uint8_t *)&digest;	
 
 		//Swap Bytes
 		uint8_t temp0 = bytes[0];
@@ -49,8 +42,8 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 		bytes[3] = temp1;
 
 		//Mod with each other
-		for (int i = 1; i < 4; i++) {
-			bytes[i] = (bytes[i] + bytes[i - 1]) % 256;
+		for (int i = 1; i < 12; i++) {
+			bytes[i%4] = (1*bytes[i%4] + 2*bytes[(i+1)%4] + 3*bytes[(i+2)%4] + 4*bytes[(i+3)%4] ) % 256;
 		}
 
 		// XOR bytes against each other for diffusion
@@ -76,7 +69,7 @@ void StudentHash(const void * key, int len, uint32_t seed, void * out) {
 		idx = idx + 1;
 	}
 
-
+ 
 	*(uint32_t*)out = digest;
 
 }
